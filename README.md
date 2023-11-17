@@ -1,3 +1,3 @@
 # Vkontakte UIKit client
 
-## Homework for GeekBrains
+Homework for GeekBrains
