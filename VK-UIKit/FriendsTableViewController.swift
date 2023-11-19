@@ -8,16 +8,21 @@
 import UIKit
 
 final class FriendsTableViewController: UITableViewController {
+    static let name = "Friends"
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Friends"
         tableView.register(
             FriendsTableViewCell.self,
             forCellReuseIdentifier: FriendsTableViewCell.identifier
         )
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.title = Self.name
     }
 
     // MARK: - Table view data source

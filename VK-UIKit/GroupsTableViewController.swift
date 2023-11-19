@@ -8,16 +8,22 @@
 import UIKit
 
 final class GroupsTableViewController: UITableViewController {
-
+    static let name = "Groups"
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Groups"
+        title = Self.name
         tableView.register(
             GroupsTableViewCell.self,
             forCellReuseIdentifier: GroupsTableViewCell.identifier
         )
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.title = Self.name
     }
 
     // MARK: - Table view data source

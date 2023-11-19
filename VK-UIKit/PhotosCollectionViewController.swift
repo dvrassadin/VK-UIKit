@@ -8,16 +8,22 @@
 import UIKit
 
 final class PhotosCollectionViewController: UICollectionViewController {
+    static let name = "Photos"
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Photos"
+        title = Self.name
         self.collectionView!.register(
             PhotosCollectionViewCell.self,
             forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier
         )
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.title = Self.name
     }
 
     // MARK: - UICollectionViewDataSource
@@ -33,7 +39,8 @@ final class PhotosCollectionViewController: UICollectionViewController {
         ) as? PhotosCollectionViewCell else {
             return UICollectionViewCell()
         }
-
+        
+        // Examples of pictures
         cell.configure(
             image: UIImage(
                 named: ["BA", "NY", "Helsinki"].randomElement() ?? ""
