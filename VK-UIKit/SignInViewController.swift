@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  SignInViewController.swift
 //  VK-UIKit
 //
 //  Created by Daniil Rassadin on 15/11/23.
@@ -8,6 +8,9 @@
 import UIKit
 
 final class SignInViewController: UIViewController {
+    
+    // MARK: - UI components
+    
     private let logoImageView = UIImageView(image: UIImage(named: "VK Logo"))
     
     private let signInLabel: UILabel = {
@@ -42,15 +45,24 @@ final class SignInViewController: UIViewController {
         button.configuration = .filled()
         return button
     }()
-
+    
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         addSubviews()
         setUpConstraints()
+        
+        logInButton.addTarget(
+            self,
+            action: #selector(goToTabBarController),
+            for: .touchUpInside
+        )
     }
     
-    // MARK: - Setting up views
+    // MARK: - Setup UI
+    
     private func addSubviews() {
         view.addSubview(logoImageView)
         view.addSubview(signInLabel)
@@ -90,6 +102,12 @@ final class SignInViewController: UIViewController {
             logInButton.widthAnchor.constraint(equalToConstant: view.frame.size.width - 40),
             logInButton.heightAnchor.constraint(equalToConstant: view.frame.size.height / 21),
         ])
+    }
+    
+    // MARK: - Navigation
+    
+    @objc private func goToTabBarController() {
+        navigationController?.pushViewController(TabBarController(), animated: true)
     }
 }
 
