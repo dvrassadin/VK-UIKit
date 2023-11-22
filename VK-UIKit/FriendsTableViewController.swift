@@ -9,6 +9,7 @@ import UIKit
 
 final class FriendsTableViewController: UITableViewController {
     static let name = "Friends"
+    private let networkService = NetworkService()
     
     // MARK: - Lifecycle
     
@@ -18,6 +19,7 @@ final class FriendsTableViewController: UITableViewController {
             FriendsTableViewCell.self,
             forCellReuseIdentifier: FriendsTableViewCell.identifier
         )
+        networkService.getFriends()
     }
     
     override func viewWillAppear(_ animated: Bool) {
