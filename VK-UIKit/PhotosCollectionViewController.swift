@@ -9,6 +9,7 @@ import UIKit
 
 final class PhotosCollectionViewController: UICollectionViewController {
     static let name = "Photos"
+    private let networkService = NetworkService()
     
     // MARK: - Lifecycle
     
@@ -19,6 +20,7 @@ final class PhotosCollectionViewController: UICollectionViewController {
             PhotosCollectionViewCell.self,
             forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier
         )
+        networkService.getPhotos()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -9,6 +9,7 @@ import UIKit
 
 final class GroupsTableViewController: UITableViewController {
     static let name = "Groups"
+    private let networkService = NetworkService()
     
     //MARK: - Lifecycle
     
@@ -19,6 +20,7 @@ final class GroupsTableViewController: UITableViewController {
             GroupsTableViewCell.self,
             forCellReuseIdentifier: GroupsTableViewCell.identifier
         )
+        networkService.getGroups()
     }
     
     override func viewWillAppear(_ animated: Bool) {
