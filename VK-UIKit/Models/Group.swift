@@ -9,6 +9,6 @@ import Foundation
 
 struct Group: VKContent {
     let name: String
-    let description: String
+    let description: String?
     let photo200: String
 }
