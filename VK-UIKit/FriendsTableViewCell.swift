@@ -60,9 +60,19 @@ final class FriendsTableViewCell: UITableViewCell {
         ])
     }
     
-    public func configure(image: UIImage? = UIImage(systemName: "person"), name: String) {
-        photoImageView.image = image
-        nameLabel.text = name
+    public func configure(with user: User) {
+        nameLabel.text = user.firstName + " " + user.lastName
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let url = URL(string: user.photo200),
+                  let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data)
+            else { return }
+            
+            DispatchQueue.main.async {
+                self.photoImageView.image = image
+            }
+        }
     }
     
     override func prepareForReuse() {

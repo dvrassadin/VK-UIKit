@@ -10,6 +10,7 @@ import UIKit
 final class FriendsTableViewController: UITableViewController {
     static let name = "Friends"
     private let networkService = NetworkService()
+    private var friends = [User]()
     
     // MARK: - Lifecycle
     
@@ -19,7 +20,12 @@ final class FriendsTableViewController: UITableViewController {
             FriendsTableViewCell.self,
             forCellReuseIdentifier: FriendsTableViewCell.identifier
         )
-        networkService.getFriends()
+        networkService.getFriends { [weak self] users in
+            self?.friends = users
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,7 +36,7 @@ final class FriendsTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        friends.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,7 +47,7 @@ final class FriendsTableViewController: UITableViewController {
             return UITableViewCell()
         }
         
-        cell.configure(name: "Name")
+        cell.configure(with: friends[indexPath.row])
         
         return cell
     }

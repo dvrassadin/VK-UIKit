@@ -11,7 +11,7 @@ final class NetworkService {
     static var token = ""
     private let baseURL = URL(string: "https://api.vk.com/method")
     
-    func getFriends() {
+    func getFriends(completion: @escaping ([User]) -> Void) {
         guard var url = baseURL else { return }
         
         url.append(path: "friends.get")
@@ -31,8 +31,7 @@ final class NetworkService {
             
             do {
                 let users = try decoder.decode(VKResponse<User>.self, from: data).response.items
-                print("------Friends------")
-                users.forEach { print($0) }
+                completion(users)
             } catch {
                 print(error)
             }
