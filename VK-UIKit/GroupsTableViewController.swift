@@ -8,8 +8,12 @@
 import UIKit
 
 final class GroupsTableViewController: UITableViewController {
+    
+    // MARK: - Properties
+    
     static let name = "Groups"
     private let networkService = NetworkService()
+    private var groups = [Group]()
     
     //MARK: - Lifecycle
     
@@ -20,18 +24,24 @@ final class GroupsTableViewController: UITableViewController {
             GroupsTableViewCell.self,
             forCellReuseIdentifier: GroupsTableViewCell.identifier
         )
-        networkService.getGroups()
+        updateGroups()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.title = Self.name
+        tableView.refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(
+            self,
+            action: #selector(updateGroups),
+            for: .valueChanged
+        )
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        groups.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -42,9 +52,21 @@ final class GroupsTableViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        cell.configure(name: "Name", description: "Description")
+        cell.configure(with: groups[indexPath.row])
         
         return cell
+    }
+    
+    // MARK: - Setup UI
+    
+    @objc private func updateGroups() {
+        networkService.getGroups { [weak self] groups in
+            self?.groups = groups
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+                self?.refreshControl?.endRefreshing()
+            }
+        }
     }
 }
 

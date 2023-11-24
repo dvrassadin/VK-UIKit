@@ -8,6 +8,9 @@
 import UIKit
 
 final class PhotosCollectionViewController: UICollectionViewController {
+    
+    // MARK: - Properties
+    
     static let name = "Photos"
     private let networkService = NetworkService()
     private var photos = [Photo]()
@@ -21,12 +24,13 @@ final class PhotosCollectionViewController: UICollectionViewController {
             PhotosCollectionViewCell.self,
             forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier
         )
-        networkService.getPhotos { [weak self] photos in
-            self?.photos = photos
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-            }
-        }
+        collectionView.refreshControl = UIRefreshControl()
+        updatePhotos()
+        collectionView.refreshControl?.addTarget(
+            self,
+            action: #selector(updatePhotos),
+            for: .valueChanged
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +58,16 @@ final class PhotosCollectionViewController: UICollectionViewController {
     }
     
     // MARK: - Setup UI
+    
+    @objc private func updatePhotos() {
+        networkService.getPhotos { [weak self] photos in
+            self?.photos = photos
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+                self?.collectionView.refreshControl?.endRefreshing()
+            }
+        }
+    }
     
     /// Creates a custom layout.
     /// - Returns: A custom layout for `PhotosCollectionViewController`.

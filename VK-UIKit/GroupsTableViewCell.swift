@@ -77,20 +77,15 @@ final class GroupsTableViewCell: UITableViewCell {
         ])
     }
     
-    public func configure(
-        image: UIImage? = UIImage(systemName: "person.3"),
-        name: String,
-        description: String? = nil
-    ) {
-        photoImageView.image = image
-        nameLabel.text = name
-        descriptionLabel.text = description
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         photoImageView.image = nil
         nameLabel.text = nil
         descriptionLabel.text = nil
+    }
+    
+    func configure(with group: Group) {
+        nameLabel.text = group.name
+        descriptionLabel.text = group.description
     }
 }

@@ -8,6 +8,9 @@
 import UIKit
 
 final class FriendsTableViewController: UITableViewController {
+    
+    // MARK: - Properties
+    
     static let name = "Friends"
     private let networkService = NetworkService()
     private var friends = [User]()
@@ -20,12 +23,13 @@ final class FriendsTableViewController: UITableViewController {
             FriendsTableViewCell.self,
             forCellReuseIdentifier: FriendsTableViewCell.identifier
         )
-        networkService.getFriends { [weak self] users in
-            self?.friends = users
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
+        updateFriends()
+        tableView.refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(
+            self,
+            action: #selector(updateFriends),
+            for: .valueChanged
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +54,18 @@ final class FriendsTableViewController: UITableViewController {
         cell.configure(with: friends[indexPath.row])
         
         return cell
+    }
+    
+    // MARK: - Setup UI
+    
+    @objc private func updateFriends() {
+        networkService.getFriends { [weak self] users in
+            self?.friends = users
+            DispatchQueue.main.async {
+                self?.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
+            }
+        }
     }
 }
 

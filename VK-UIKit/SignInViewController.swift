@@ -24,14 +24,16 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(webView)
-        
         openSignInPage()
     }
     
     // MARK: - Navigation
     
     private func goToTabBarController() {
-        navigationController?.pushViewController(TabBarController(), animated: true)
+        navigationController?.pushViewController(
+            TabBarController(),
+            animated: true
+        )
     }
     
     private func openSignInPage() {
@@ -53,9 +55,9 @@ extension SignInViewController: WKNavigationDelegate {
               url.path() == "/blank.html",
               let fragment = url.fragment(),
               let token = fragment
-                  .components(separatedBy: "&")
-                  .first(where: { $0.hasPrefix("access_token") })?
-                  .components(separatedBy: "=")[1]
+            .components(separatedBy: "&")
+            .first(where: { $0.hasPrefix("access_token") })?
+            .components(separatedBy: "=").last
         else {
             decisionHandler(.allow)
             return

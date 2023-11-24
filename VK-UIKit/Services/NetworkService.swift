@@ -38,7 +38,7 @@ final class NetworkService {
         }.resume()
     }
     
-    func getGroups() {
+    func getGroups(completion: @escaping ([Group]) -> Void) {
         guard var url = baseURL else { return }
         
         url.append(path: "groups.get")
@@ -57,9 +57,8 @@ final class NetworkService {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
-                let users = try decoder.decode(VKResponse<Group>.self, from: data).response.items
-                print("------Groups------")
-                users.forEach { print($0) }
+                let groups = try decoder.decode(VKResponse<Group>.self, from: data).response.items
+                completion(groups)
             } catch {
                 print(error)
             }
