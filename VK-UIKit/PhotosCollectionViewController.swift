@@ -10,6 +10,7 @@ import UIKit
 final class PhotosCollectionViewController: UICollectionViewController {
     static let name = "Photos"
     private let networkService = NetworkService()
+    private var photos = [Photo]()
     
     // MARK: - Lifecycle
     
@@ -20,7 +21,12 @@ final class PhotosCollectionViewController: UICollectionViewController {
             PhotosCollectionViewCell.self,
             forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier
         )
-        networkService.getPhotos()
+        networkService.getPhotos { [weak self] photos in
+            self?.photos = photos
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,7 +37,7 @@ final class PhotosCollectionViewController: UICollectionViewController {
     // MARK: - UICollectionViewDataSource
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        6
+        photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -42,12 +48,7 @@ final class PhotosCollectionViewController: UICollectionViewController {
             return UICollectionViewCell()
         }
         
-        // Examples of pictures
-        cell.configure(
-            image: UIImage(
-                named: ["BA", "NY", "Helsinki"].randomElement() ?? ""
-            )
-        )
+        cell.configure(with: photos[indexPath.row])
         
         return cell
     }

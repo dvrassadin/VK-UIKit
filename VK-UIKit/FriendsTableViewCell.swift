@@ -17,6 +17,9 @@ final class FriendsTableViewCell: UITableViewCell {
         imageView.layer.cornerRadius = 20
         imageView.backgroundColor = .systemGray6
         imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.clear.cgColor
         return imageView
     }()
     
@@ -63,7 +66,7 @@ final class FriendsTableViewCell: UITableViewCell {
     public func configure(with user: User) {
         nameLabel.text = user.firstName + " " + user.lastName
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global().async {
             guard let url = URL(string: user.photo200),
                   let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data)
@@ -71,6 +74,9 @@ final class FriendsTableViewCell: UITableViewCell {
             
             DispatchQueue.main.async {
                 self.photoImageView.image = image
+                if user.isOnline {
+                    self.photoImageView.layer.borderColor = UIColor.green.cgColor
+                }
             }
         }
     }
@@ -78,6 +84,7 @@ final class FriendsTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         photoImageView.image = nil
+        photoImageView.layer.borderColor = UIColor.clear.cgColor
         nameLabel.text = nil
     }
 }
