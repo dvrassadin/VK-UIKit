@@ -17,20 +17,21 @@ final class GroupsTableViewCell: UITableViewCell {
         imageView.layer.cornerRadius = 20
         imageView.backgroundColor = .systemGray6
         imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         return imageView
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.textAlignment = .natural
+        label.font = .preferredFont(forTextStyle: .headline)
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.textAlignment = .natural
+        label.font = .preferredFont(forTextStyle: .subheadline)
         return label
     }()
     
@@ -87,5 +88,6 @@ final class GroupsTableViewCell: UITableViewCell {
     func configure(with group: Group) {
         nameLabel.text = group.name
         descriptionLabel.text = group.description
+        Task { await photoImageView.image = group.photo }
     }
 }

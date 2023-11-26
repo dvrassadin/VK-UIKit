@@ -15,7 +15,6 @@ final class FriendsTableViewCell: UITableViewCell {
     private let photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 20
-        imageView.backgroundColor = .systemGray6
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.borderWidth = 1
@@ -25,8 +24,8 @@ final class FriendsTableViewCell: UITableViewCell {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.textAlignment = .natural
+        label.font = .preferredFont(forTextStyle: .headline)
         return label
     }()
     
