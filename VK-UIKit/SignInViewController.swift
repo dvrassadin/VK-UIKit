@@ -43,10 +43,6 @@ final class SignInViewController: UIViewController {
     }
 }
 
-#Preview {
-    SignInViewController()
-}
-
 // MARK: - WebKit navigation delegate
 
 extension SignInViewController: WKNavigationDelegate {

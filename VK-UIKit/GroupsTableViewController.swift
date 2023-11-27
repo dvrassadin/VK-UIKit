@@ -69,7 +69,3 @@ final class GroupsTableViewController: UITableViewController {
         }
     }
 }
-
-#Preview {
-    GroupsTableViewController()
-}

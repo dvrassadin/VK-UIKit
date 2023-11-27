@@ -95,9 +95,3 @@ final class PhotosCollectionViewController: UICollectionViewController {
         return UICollectionViewCompositionalLayout(section: section)
     }
 }
-
-#Preview {
-    PhotosCollectionViewController(
-        collectionViewLayout: PhotosCollectionViewController.createLayout()
-    )
-}

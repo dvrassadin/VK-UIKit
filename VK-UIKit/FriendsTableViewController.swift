@@ -68,7 +68,3 @@ final class FriendsTableViewController: UITableViewController {
         }
     }
 }
-
-#Preview {
-    FriendsTableViewController()
-}
