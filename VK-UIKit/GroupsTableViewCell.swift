@@ -17,20 +17,22 @@ final class GroupsTableViewCell: UITableViewCell {
         imageView.layer.cornerRadius = 20
         imageView.backgroundColor = .systemGray6
         imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         return imageView
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.textAlignment = .natural
+        label.font = .preferredFont(forTextStyle: .headline)
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.textAlignment = .natural
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.numberOfLines = 2
         return label
     }()
     
@@ -77,20 +79,16 @@ final class GroupsTableViewCell: UITableViewCell {
         ])
     }
     
-    public func configure(
-        image: UIImage? = UIImage(systemName: "person.3"),
-        name: String,
-        description: String? = nil
-    ) {
-        photoImageView.image = image
-        nameLabel.text = name
-        descriptionLabel.text = description
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         photoImageView.image = nil
         nameLabel.text = nil
         descriptionLabel.text = nil
+    }
+    
+    func configure(with group: Group) {
+        nameLabel.text = group.name
+        descriptionLabel.text = group.description
+        Task { await photoImageView.image = group.photo }
     }
 }

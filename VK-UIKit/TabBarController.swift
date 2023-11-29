@@ -52,7 +52,3 @@ final class TabBarController: UITabBarController {
         viewControllers = [friendsTableVC, groupsTableVC, photosCollectionVC]
     }
 }
-
-#Preview {
-    TabBarController()
-}

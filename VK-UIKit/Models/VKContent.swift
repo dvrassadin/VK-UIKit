@@ -10,7 +10,7 @@ import Foundation
 protocol VKContent: Decodable { }
 
 struct VKResponse<T: VKContent>: Decodable {
-    var response: VKItems
+    let response: VKItems
     
     struct VKItems: Decodable {
         let items: [T]

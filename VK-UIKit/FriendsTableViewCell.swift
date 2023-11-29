@@ -15,15 +15,17 @@ final class FriendsTableViewCell: UITableViewCell {
     private let photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 20
-        imageView.backgroundColor = .systemGray6
         imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.clear.cgColor
         return imageView
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.textAlignment = .natural
+        label.font = .preferredFont(forTextStyle: .headline)
         return label
     }()
     
@@ -60,14 +62,28 @@ final class FriendsTableViewCell: UITableViewCell {
         ])
     }
     
-    public func configure(image: UIImage? = UIImage(systemName: "person"), name: String) {
-        photoImageView.image = image
-        nameLabel.text = name
+    public func configure(with user: User) {
+        nameLabel.text = user.firstName + " " + user.lastName
+        
+        DispatchQueue.global().async {
+            guard let url = URL(string: user.photo200),
+                  let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data)
+            else { return }
+            
+            DispatchQueue.main.async {
+                self.photoImageView.image = image
+                if user.isOnline {
+                    self.photoImageView.layer.borderColor = UIColor.green.cgColor
+                }
+            }
+        }
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         photoImageView.image = nil
+        photoImageView.layer.borderColor = UIColor.clear.cgColor
         nameLabel.text = nil
     }
 }

@@ -11,4 +11,7 @@ struct User: VKContent {
     let firstName: String
     let lastName: String
     let photo200: String
+    
+    private let online: Int
+    var isOnline: Bool { online != 0 }
 }

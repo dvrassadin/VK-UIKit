@@ -8,8 +8,12 @@
 import UIKit
 
 final class PhotosCollectionViewController: UICollectionViewController {
+    
+    // MARK: - Properties
+    
     static let name = "Photos"
     private let networkService = NetworkService()
+    private var photos = [Photo]()
     
     // MARK: - Lifecycle
     
@@ -20,7 +24,13 @@ final class PhotosCollectionViewController: UICollectionViewController {
             PhotosCollectionViewCell.self,
             forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier
         )
-        networkService.getPhotos()
+        collectionView.refreshControl = UIRefreshControl()
+        updatePhotos()
+        collectionView.refreshControl?.addTarget(
+            self,
+            action: #selector(updatePhotos),
+            for: .valueChanged
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,7 +41,7 @@ final class PhotosCollectionViewController: UICollectionViewController {
     // MARK: - UICollectionViewDataSource
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        6
+        photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -42,17 +52,22 @@ final class PhotosCollectionViewController: UICollectionViewController {
             return UICollectionViewCell()
         }
         
-        // Examples of pictures
-        cell.configure(
-            image: UIImage(
-                named: ["BA", "NY", "Helsinki"].randomElement() ?? ""
-            )
-        )
+        cell.configure(with: photos[indexPath.row])
         
         return cell
     }
     
     // MARK: - Setup UI
+    
+    @objc private func updatePhotos() {
+        networkService.getPhotos { [weak self] photos in
+            self?.photos = photos
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+                self?.collectionView.refreshControl?.endRefreshing()
+            }
+        }
+    }
     
     /// Creates a custom layout.
     /// - Returns: A custom layout for `PhotosCollectionViewController`.
@@ -79,10 +94,4 @@ final class PhotosCollectionViewController: UICollectionViewController {
         
         return UICollectionViewCompositionalLayout(section: section)
     }
-}
-
-#Preview {
-    PhotosCollectionViewController(
-        collectionViewLayout: PhotosCollectionViewController.createLayout()
-    )
 }
