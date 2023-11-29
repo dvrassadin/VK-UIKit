@@ -11,7 +11,7 @@ final class NetworkService {
     static var token = ""
     private let baseURL = URL(string: "https://api.vk.com/method")
     
-    func getFriends(completion: @escaping ([User]) -> Void) {
+    func getFriends(completion: @escaping ([Friend]) -> Void) {
         guard var url = baseURL else { return }
         
         url.append(path: "friends.get")
@@ -30,8 +30,8 @@ final class NetworkService {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
-                let users = try decoder.decode(VKResponse<User>.self, from: data).response.items
-                completion(users)
+                let friends = try decoder.decode(FriendsResponse.self, from: data).response.items
+                completion(friends)
             } catch {
                 print(error)
             }
@@ -57,7 +57,7 @@ final class NetworkService {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
-                let groups = try decoder.decode(VKResponse<Group>.self, from: data).response.items
+                let groups = try decoder.decode(GroupsResponse.self, from: data).response.items
                 completion(groups)
             } catch {
                 print(error)
@@ -82,8 +82,38 @@ final class NetworkService {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
-                let users = try decoder.decode(VKResponse<Photo>.self, from: data).response.items
-                completion(users)
+                let photos = try decoder.decode(PhotosResponse.self, from: data).response.items
+                completion(photos)
+            } catch {
+                print(error)
+            }
+        }.resume()
+    }
+    
+    func getUser(with id: Int? = nil, completion: @escaping ([User]) -> Void) {
+        guard var url = baseURL else { return }
+        
+        url.append(path: "users.get")
+        
+        if let id {
+            url.append(queryItems: [URLQueryItem(name: "user_ids", value: String(id))])
+        }
+        
+        url.append(queryItems: [
+            URLQueryItem(name: "fields", value: "photo_400_orig"),
+            URLQueryItem(name: "access_token", value: Self.token),
+            URLQueryItem(name: "v", value: "5.199")
+        ])
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data else { return }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            
+            do {
+                let user = try decoder.decode(UsersResponse.self, from: data).response
+                completion(user)
             } catch {
                 print(error)
             }

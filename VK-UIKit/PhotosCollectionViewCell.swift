@@ -33,7 +33,7 @@ final class PhotosCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Setup UI
     
-    private func setupConstraints() {
+    func setupConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -44,7 +44,7 @@ final class PhotosCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    public func configure(with photo: Photo) {
+    func configure(with photo: Photo) {
         DispatchQueue.global(qos: .userInitiated).async {
             guard let url = photo.getURL(for: .w),
                   let data = try? Data(contentsOf: url),

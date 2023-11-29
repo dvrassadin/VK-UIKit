@@ -36,6 +36,7 @@ final class PhotosCollectionViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.title = Self.name
+        tabBarController?.navigationItem.rightBarButtonItem = nil
     }
 
     // MARK: - UICollectionViewDataSource

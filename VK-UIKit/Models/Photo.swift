@@ -7,7 +7,16 @@
 
 import Foundation
 
-struct Photo: VKContent {
+/// Structure for `photos.get` request.
+struct PhotosResponse: Decodable {
+    let response: Items
+    
+    struct Items: Decodable {
+        let items: [Photo]
+    }
+}
+
+struct Photo: Decodable {
     private let sizes: [Size]
     
     func getURL(for size: SizeType) -> URL? {

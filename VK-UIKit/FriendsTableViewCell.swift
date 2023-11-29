@@ -62,18 +62,18 @@ final class FriendsTableViewCell: UITableViewCell {
         ])
     }
     
-    public func configure(with user: User) {
-        nameLabel.text = user.firstName + " " + user.lastName
+    public func configure(with friend: Friend) {
+        nameLabel.text = friend.firstName + " " + friend.lastName
         
         DispatchQueue.global().async {
-            guard let url = URL(string: user.photo200),
+            guard let url = URL(string: friend.photo200),
                   let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data)
             else { return }
             
             DispatchQueue.main.async {
                 self.photoImageView.image = image
-                if user.isOnline {
+                if friend.isOnline {
                     self.photoImageView.layer.borderColor = UIColor.green.cgColor
                 }
             }

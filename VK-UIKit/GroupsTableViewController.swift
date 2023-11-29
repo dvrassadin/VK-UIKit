@@ -36,6 +36,7 @@ final class GroupsTableViewController: UITableViewController {
             action: #selector(updateGroups),
             for: .valueChanged
         )
+        tabBarController?.navigationItem.rightBarButtonItem = nil
     }
 
     // MARK: - Table view data source
