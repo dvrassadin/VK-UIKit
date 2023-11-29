@@ -32,6 +32,7 @@ final class GroupsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textAlignment = .natural
         label.font = .preferredFont(forTextStyle: .subheadline)
+        label.numberOfLines = 2
         return label
     }()
     
