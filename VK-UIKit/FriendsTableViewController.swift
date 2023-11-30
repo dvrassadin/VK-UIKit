@@ -13,7 +13,8 @@ final class FriendsTableViewController: UITableViewController {
     
     static let name = "Friends"
     private let networkService = NetworkService()
-    private var friends = [User]()
+    private var friends = [Friend]()
+    private var user: User?
     
     // MARK: - Lifecycle
     
@@ -35,14 +36,15 @@ final class FriendsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.title = Self.name
+        addProfileButton()
     }
-
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         friends.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: FriendsTableViewCell.identifier,
@@ -64,6 +66,41 @@ final class FriendsTableViewController: UITableViewController {
             DispatchQueue.main.async {
                 self?.refreshControl?.endRefreshing()
                 self?.tableView.reloadData()
+            }
+        }
+    }
+    
+    @objc private func goToProfile() {
+        guard let user else { return }
+        let transition = CATransition()
+        transition.timingFunction = CAMediaTimingFunction(name: .linear)
+        transition.duration = 0.5
+        transition.type = .fade
+        navigationController?.view.layer.add(transition, forKey: nil)
+        navigationController?.pushViewController(ProfileViewController(user: user), animated: false)
+    }
+    
+    private func getUser(_ completion: @escaping () -> Void) {
+        networkService.getUser { [weak self] user in
+            self?.user = user.first
+            completion()
+        }
+    }
+    
+    /// Adds a right `UIBarButtonItem` to the navigation bar or first loads the user's data if `user` is `nil`.
+    private func addProfileButton() {
+        if user != nil {
+            self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: "person.crop.circle"),
+                style: .plain,
+                target: self,
+                action: #selector(self.goToProfile)
+            )
+        } else {
+            getUser { [weak self] in
+                DispatchQueue.main.async {
+                    self?.addProfileButton()
+                }
             }
         }
     }

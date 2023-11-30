@@ -7,7 +7,16 @@
 
 import UIKit
 
-struct Group: VKContent {
+/// Structure for `groups.get` request.
+struct GroupsResponse: Decodable {
+    let response: Items
+    
+    struct Items: Decodable {
+        let items: [Group]
+    }
+}
+
+struct Group: Decodable {
     let name: String
     let description: String?
     
