@@ -36,6 +36,8 @@ final class FriendsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.title = Self.name
+        view.backgroundColor = Theme.backgroundColor
+        tableView.reloadData()
         addProfileButton()
     }
     

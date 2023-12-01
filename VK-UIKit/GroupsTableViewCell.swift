@@ -40,7 +40,6 @@ final class GroupsTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         addSubviews()
         setupConstraints()
     }
@@ -87,6 +86,7 @@ final class GroupsTableViewCell: UITableViewCell {
     }
     
     func configure(with group: Group) {
+        contentView.backgroundColor = Theme.backgroundColor
         nameLabel.text = group.name
         descriptionLabel.text = group.description
         Task { await photoImageView.image = group.photo }

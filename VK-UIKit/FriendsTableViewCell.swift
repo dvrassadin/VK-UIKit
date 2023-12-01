@@ -63,6 +63,7 @@ final class FriendsTableViewCell: UITableViewCell {
     }
     
     public func configure(with friend: Friend) {
+        contentView.backgroundColor = Theme.backgroundColor
         nameLabel.text = friend.firstName + " " + friend.lastName
         
         DispatchQueue.global().async {

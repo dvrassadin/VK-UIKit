@@ -37,6 +37,7 @@ final class PhotosCollectionViewController: UICollectionViewController {
         super.viewWillAppear(animated)
         tabBarController?.title = Self.name
         tabBarController?.navigationItem.rightBarButtonItem = nil
+        collectionView.backgroundColor = Theme.backgroundColor
     }
 
     // MARK: - UICollectionViewDataSource

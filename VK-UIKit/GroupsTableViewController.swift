@@ -37,6 +37,8 @@ final class GroupsTableViewController: UITableViewController {
             for: .valueChanged
         )
         tabBarController?.navigationItem.rightBarButtonItem = nil
+        view.backgroundColor = Theme.backgroundColor
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source

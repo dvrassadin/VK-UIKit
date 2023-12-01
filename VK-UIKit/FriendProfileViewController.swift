@@ -19,7 +19,11 @@ final class FriendProfileViewController: UIViewController {
         return imageView
     }()
     
-    private let nameLabel = UILabel()
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .largeTitle)
+        return label
+    }()
     
     // MARK: - Lifecycle
     
@@ -38,6 +42,11 @@ final class FriendProfileViewController: UIViewController {
         addSubviews()
         setupConstraints()
         addData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.backgroundColor = Theme.backgroundColor
     }
     
     // MARK: - Setup UI

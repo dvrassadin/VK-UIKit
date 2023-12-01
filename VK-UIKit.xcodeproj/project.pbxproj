@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		511F66632B19AA7700066C27 /* FriendProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511F66622B19AA7700066C27 /* FriendProfileViewController.swift */; };
+		511F66652B19ACE100066C27 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511F66642B19ACE100066C27 /* Theme.swift */; };
 		51561D092B09EED900F00DA1 /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51561D082B09EED900F00DA1 /* GroupsTableViewCell.swift */; };
 		51561D0B2B09F47400F00DA1 /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51561D0A2B09F47400F00DA1 /* PhotosCollectionViewCell.swift */; };
 		519A4A842B048FBA001539BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519A4A832B048FBA001539BC /* AppDelegate.swift */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		511F66622B19AA7700066C27 /* FriendProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileViewController.swift; sourceTree = "<group>"; };
+		511F66642B19ACE100066C27 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		51561D082B09EED900F00DA1 /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
 		51561D0A2B09F47400F00DA1 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		519A4A802B048FBA001539BC /* VK-UIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VK-UIKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +103,7 @@
 				51E93F0C2B071C250009F9F9 /* PhotosCollectionViewController.swift */,
 				51561D0A2B09F47400F00DA1 /* PhotosCollectionViewCell.swift */,
 				51B6ADF02B170D240066C617 /* UserProfileViewController.swift */,
+				511F66642B19ACE100066C27 /* Theme.swift */,
 				511F66622B19AA7700066C27 /* FriendProfileViewController.swift */,
 				51F5EFAF2B0C86AF00FA52A0 /* Services */,
 				51F5FCDC2B0DD24700DF8D4C /* Models */,
@@ -214,6 +217,7 @@
 				51E93F0D2B071C250009F9F9 /* PhotosCollectionViewController.swift in Sources */,
 				51F5FCE22B0DF1ED00DF8D4C /* Photo.swift in Sources */,
 				511F66632B19AA7700066C27 /* FriendProfileViewController.swift in Sources */,
+				511F66652B19ACE100066C27 /* Theme.swift in Sources */,
 				51561D0B2B09F47400F00DA1 /* PhotosCollectionViewCell.swift in Sources */,
 				51561D092B09EED900F00DA1 /* GroupsTableViewCell.swift in Sources */,
 				519A4A862B048FBA001539BC /* SceneDelegate.swift in Sources */,

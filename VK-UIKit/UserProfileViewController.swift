@@ -19,7 +19,20 @@ final class UserProfileViewController: UIViewController {
         return imageView
     }()
     
-    private let nameLabel = UILabel()
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .largeTitle)
+        return label
+    }()
+    
+    private let changeThemeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Change theme color"
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        return label
+    }()
+    
+    private let themeSegmentedControl = UISegmentedControl(items: Theme.BackgroundColor.allCases.map({ $0.rawValue }))
     
     // MARK: - Lifecycle
     
@@ -34,10 +47,16 @@ final class UserProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         addSubviews()
         setupConstraints()
         addData()
+        themeSegmentedControl.addTarget(self, action: #selector(changeTheme), for: .valueChanged)
+        selectedSegment()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.backgroundColor = Theme.backgroundColor
     }
     
     // MARK: - Setup UI
@@ -45,11 +64,15 @@ final class UserProfileViewController: UIViewController {
     private func addSubviews() {
         view.addSubview(photoImageView)
         view.addSubview(nameLabel)
+        view.addSubview(changeThemeLabel)
+        view.addSubview(themeSegmentedControl)
     }
     
     private func setupConstraints() {
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        changeThemeLabel.translatesAutoresizingMaskIntoConstraints = false
+        themeSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             photoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
@@ -58,7 +81,14 @@ final class UserProfileViewController: UIViewController {
             photoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             
             nameLabel.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 30),
-            nameLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
+            nameLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            
+            changeThemeLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 30),
+            changeThemeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            themeSegmentedControl.topAnchor.constraint(equalTo: changeThemeLabel.bottomAnchor, constant: 5),
+            themeSegmentedControl.widthAnchor.constraint(equalToConstant: view.frame.width / 1.3),
+            themeSegmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -73,6 +103,24 @@ final class UserProfileViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.photoImageView.image = image
+            }
+        }
+    }
+    
+    @objc private func changeTheme(sender: UISegmentedControl) {
+        guard sender == themeSegmentedControl,
+              let segmentTitle = sender.titleForSegment(at: sender.selectedSegmentIndex),
+              let themeBackgroundColor = Theme.BackgroundColor(rawValue: segmentTitle)
+        else { return }
+        
+        Theme.setBackgroundColor(themeBackgroundColor)
+        view.backgroundColor = Theme.backgroundColor
+    }
+    
+    private func selectedSegment() {
+        for (i, themeBackgroundColor) in Theme.BackgroundColor.allCases.enumerated()  {
+            if themeBackgroundColor.color == Theme.backgroundColor {
+                themeSegmentedControl.selectedSegmentIndex = i
             }
         }
     }
