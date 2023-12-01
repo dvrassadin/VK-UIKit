@@ -1,14 +1,14 @@
 //
-//  ProfileViewController.swift
+//  FriendProfileViewController.swift
 //  VK-UIKit
 //
-//  Created by Daniil Rassadin on 29/11/23.
+//  Created by Daniil Rassadin on 1/12/23.
 //
 
 import UIKit
 
-final class ProfileViewController: UIViewController {
-    private let user: User
+final class FriendProfileViewController: UIViewController {
+    private let friend: Friend
     
     // MARK: - UI components
     
@@ -23,8 +23,8 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Lifecycle
     
-    init(user: User) {
-        self.user = user
+    init(friend: Friend) {
+        self.friend = friend
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -63,10 +63,10 @@ final class ProfileViewController: UIViewController {
     }
     
     private func addData() {
-        nameLabel.text = user.firstName + " " + user.lastName
+        nameLabel.text = friend.firstName + " " + friend.lastName
         
         DispatchQueue.global().async {
-            guard let url = URL(string: self.user.photo400Orig),
+            guard let url = URL(string: self.friend.photo200),
                   let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data)
             else { return }

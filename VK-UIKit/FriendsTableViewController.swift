@@ -58,6 +58,25 @@ final class FriendsTableViewController: UITableViewController {
         return cell
     }
     
+    // MARK: - Navigation
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.pushViewController(
+            FriendProfileViewController(friend: friends[indexPath.row]),
+            animated: true
+        )
+    }
+    
+    @objc private func goToProfile() {
+        guard let user else { return }
+        let transition = CATransition()
+        transition.timingFunction = CAMediaTimingFunction(name: .linear)
+        transition.duration = 0.5
+        transition.type = .fade
+        navigationController?.view.layer.add(transition, forKey: nil)
+        navigationController?.pushViewController(UserProfileViewController(user: user), animated: false)
+    }
+    
     // MARK: - Setup UI
     
     @objc private func updateFriends() {
@@ -68,16 +87,6 @@ final class FriendsTableViewController: UITableViewController {
                 self?.tableView.reloadData()
             }
         }
-    }
-    
-    @objc private func goToProfile() {
-        guard let user else { return }
-        let transition = CATransition()
-        transition.timingFunction = CAMediaTimingFunction(name: .linear)
-        transition.duration = 0.5
-        transition.type = .fade
-        navigationController?.view.layer.add(transition, forKey: nil)
-        navigationController?.pushViewController(ProfileViewController(user: user), animated: false)
     }
     
     private func getUser(_ completion: @escaping () -> Void) {
