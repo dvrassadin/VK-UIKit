@@ -27,8 +27,8 @@ struct PhotosResponse: Decodable {
 struct Photo: Decodable {
     private let sizes: [Size]
     var maxSizeURL: URL? {
-        let sizeWeight: [SizeType: Int] = [.w: 6, .z: 5, .y: 4, .x: 3, .m: 2, .s: 1]
-        var maxSizeWeight = 0
+        let sizeWeight: [SizeType: Int8] = [.w: 6, .z: 5, .y: 4, .x: 3, .m: 2, .s: 1]
+        var maxSizeWeight: Int8 = 0
         var maxSizeStringURL = ""
         for size in sizes {
             guard let sizeWeight = sizeWeight[size.type] else { continue }

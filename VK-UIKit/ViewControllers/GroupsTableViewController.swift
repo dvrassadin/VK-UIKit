@@ -13,6 +13,7 @@ final class GroupsTableViewController: UITableViewController {
     
     static let name = "Groups"
     private let networkService = NetworkService()
+    private let dataService = DataService()
     private var groups = [Group]()
     
     //MARK: - Lifecycle
@@ -24,6 +25,7 @@ final class GroupsTableViewController: UITableViewController {
             GroupsTableViewCell.self,
             forCellReuseIdentifier: GroupsTableViewCell.identifier
         )
+        groups = dataService.fetchGroups()
         updateGroups()
     }
     
@@ -63,12 +65,26 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - Setup UI
     
     @objc private func updateGroups() {
-        networkService.getGroups { [weak self] groups in
-            self?.groups = groups
+        networkService.getGroups { [weak self] result in
+            switch result {
+            case .success(let groups): self?.groups = groups
+            case .failure: DispatchQueue.main.async { self?.showUnableLoadingAlert() }
+            }
+            
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.refreshControl?.endRefreshing()
             }
         }
+    }
+    
+    private func showUnableLoadingAlert() {
+        let ac = UIAlertController(
+            title: "Failed to Load",
+            message: "Please try again later.",
+            preferredStyle: .alert
+        )
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
     }
 }

@@ -7,12 +7,20 @@
 
 import Foundation
 
+enum NetworkError: Error {
+    case  invalidURL, invalidData, noData
+}
+
 final class NetworkService {
     static var token = ""
     private let baseURL = URL(string: "https://api.vk.com/method")
+    private let dataService = DataService()
     
-    func getFriends(completion: @escaping ([Friend]) -> Void) {
-        guard var url = baseURL else { return }
+    func getFriends(completion: @escaping (Result<[Friend], NetworkError>) -> Void) {
+        guard var url = baseURL else {
+            completion(.failure(.invalidURL))
+            return
+        }
         
         url.append(path: "friends.get")
         
@@ -23,23 +31,30 @@ final class NetworkService {
             URLQueryItem(name: "v", value: "5.199")
         ])
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data else { return }
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data else {
+                completion(.failure(.noData))
+                return
+            }
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
                 let friends = try decoder.decode(FriendsResponse.self, from: data).response.items
-                completion(friends)
+                self.dataService.add(friends: friends)
+                completion(.success(friends))
             } catch {
-                print(error)
+                completion(.failure(.invalidData))
             }
         }.resume()
     }
     
-    func getGroups(completion: @escaping ([Group]) -> Void) {
-        guard var url = baseURL else { return }
+    func getGroups(completion: @escaping (Result<[Group], NetworkError>) -> Void) {
+        guard var url = baseURL else {
+            completion(.failure(.invalidURL))
+            return
+        }
         
         url.append(path: "groups.get")
         
@@ -50,17 +65,21 @@ final class NetworkService {
             URLQueryItem(name: "v", value: "5.199")
         ])
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data else { return }
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data else {
+                completion(.failure(.noData))
+                return
+            }
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
                 let groups = try decoder.decode(GroupsResponse.self, from: data).response.items
-                completion(groups)
+                self.dataService.add(groups: groups)
+                completion(.success(groups))
             } catch {
-                print(error)
+                completion(.failure(.invalidData))
             }
         }.resume()
     }
