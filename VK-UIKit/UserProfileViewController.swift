@@ -50,8 +50,8 @@ final class UserProfileViewController: UIViewController {
         addSubviews()
         setupConstraints()
         addData()
-        themeSegmentedControl.addTarget(self, action: #selector(changeTheme), for: .valueChanged)
-        selectedSegment()
+        themeSegmentedControl.addTarget(self, action: #selector(changeTheme(sender:)), for: .valueChanged)
+        setSelectedSegment()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,10 +117,11 @@ final class UserProfileViewController: UIViewController {
         view.backgroundColor = Theme.backgroundColor
     }
     
-    private func selectedSegment() {
+    private func setSelectedSegment() {
         for (i, themeBackgroundColor) in Theme.BackgroundColor.allCases.enumerated()  {
             if themeBackgroundColor.color == Theme.backgroundColor {
                 themeSegmentedControl.selectedSegmentIndex = i
+                break
             }
         }
     }

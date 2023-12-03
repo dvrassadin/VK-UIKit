@@ -46,7 +46,7 @@ final class PhotosCollectionViewCell: UICollectionViewCell {
     
     func configure(with photo: Photo) {
         DispatchQueue.global(qos: .userInitiated).async {
-            guard let url = photo.getURL(for: .w),
+            guard let url = photo.maxSizeURL,
                   let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data)
             else { return }

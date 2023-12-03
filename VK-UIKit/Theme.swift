@@ -10,9 +10,9 @@ import UIKit
 final class Theme {
     static private(set) var backgroundColor: UIColor = .systemBackground
     
-    static func setBackgroundColor(_ color: BackgroundColor) {
-        backgroundColor = color.color
-        UserDefaults.standard.set(color.rawValue, forKey: "themeBackgroundColor")
+    static func setBackgroundColor(_ backgroundColor: BackgroundColor) {
+        self.backgroundColor = backgroundColor.color
+        UserDefaults.standard.set(backgroundColor.rawValue, forKey: "themeBackgroundColor")
     }
     
     static func load() {

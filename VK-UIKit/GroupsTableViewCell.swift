@@ -89,6 +89,15 @@ final class GroupsTableViewCell: UITableViewCell {
         contentView.backgroundColor = Theme.backgroundColor
         nameLabel.text = group.name
         descriptionLabel.text = group.description
-        Task { await photoImageView.image = group.photo }
+        DispatchQueue.global().async {
+            guard let url = URL(string: group.photo200),
+                  let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data)
+            else { return }
+            
+            DispatchQueue.main.async {
+                self.photoImageView.image = image
+            }
+        }
     }
 }
