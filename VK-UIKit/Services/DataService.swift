@@ -31,16 +31,11 @@ final class DataService {
     }
     
     func add(friends: [Friend]) {
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FriendModel")
         for friend in friends {
-//            fetchRequest.predicate = NSPredicate(format: "id = %d", friend.id)
-//            let result = try? Self.persistentContainer.viewContext.fetch(fetchRequest)
-//            guard result?.first == nil else { continue }
             let friendModel = FriendModel(context: Self.persistentContainer.viewContext)
             friendModel.id = Int64(friend.id)
             friendModel.firstName = friend.firstName
             friendModel.lastName = friend.lastName
-            friendModel.photo200 = friend.photo200
         }
         if Self.persistentContainer.viewContext.hasChanges {
             addUpdateDate(for: .friend)
@@ -54,29 +49,21 @@ final class DataService {
         var friends = [Friend]()
         for friendModel in friendModels {
             guard let firstName = friendModel.firstName,
-                  let lastName = friendModel.lastName,
-                  let photo200 = friendModel.photo200
+                  let lastName = friendModel.lastName
             else { continue }
             
             friends.append(
-                Friend(
-                    id: Int(friendModel.id), firstName: firstName, lastName: lastName, photo200: photo200)
-            )
+                Friend(id: Int(friendModel.id), firstName: firstName, lastName: lastName))
         }
         return friends
     }
     
     func add(groups: [Group]) {
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "GroupModel")
         for group in groups {
-//            fetchRequest.predicate = NSPredicate(format: "id = %d", group.id)
-//            let result = try? Self.persistentContainer.viewContext.fetch(fetchRequest)
-//            guard result?.first == nil else { continue }
             let groupModel = GroupModel(context: Self.persistentContainer.viewContext)
             groupModel.id = Int64(group.id)
             groupModel.name = group.name
             groupModel.desc = group.description
-            groupModel.photo200 = group.photo200
         }
         if Self.persistentContainer.viewContext.hasChanges {
             addUpdateDate(for: .friend)
@@ -90,11 +77,10 @@ final class DataService {
         var groups = [Group]()
         for groupModel in groupModels {
             guard let name = groupModel.name,
-                  let description = groupModel.desc,
-                  let photo200 = groupModel.photo200
+                  let description = groupModel.desc
             else { continue }
             
-            groups.append(Group(id: Int(groupModel.id), name: name, description: description, photo200: photo200))
+            groups.append(Group(id: Int(groupModel.id), name: name, description: description, photo200: nil))
         }
         return groups
     }

@@ -90,7 +90,8 @@ final class GroupsTableViewCell: UITableViewCell {
         nameLabel.text = group.name
         descriptionLabel.text = group.description
         DispatchQueue.global().async {
-            guard let url = URL(string: group.photo200),
+            guard let stringURL = group.photo200,
+                  let url = URL(string: stringURL),
                   let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data)
             else { return }

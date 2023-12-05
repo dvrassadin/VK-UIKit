@@ -75,7 +75,8 @@ final class FriendProfileViewController: UIViewController {
         nameLabel.text = friend.firstName + " " + friend.lastName
         
         DispatchQueue.global().async {
-            guard let url = URL(string: self.friend.photo200),
+            guard let stringURL =  self.friend.photo200,
+                  let url = URL(string: stringURL),
                   let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data)
             else { return }

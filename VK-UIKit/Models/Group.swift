@@ -19,5 +19,5 @@ struct Group: Decodable {
     let id: Int
     let name: String
     let description: String?
-    let photo200: String
+    let photo200: String?
 }
