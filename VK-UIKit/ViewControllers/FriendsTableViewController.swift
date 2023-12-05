@@ -98,9 +98,14 @@ final class FriendsTableViewController: UITableViewController {
     }
     
     private func getUser(_ completion: @escaping () -> Void) {
-        networkService.getUser { [weak self] user in
-            self?.user = user.first
-            completion()
+        networkService.getUser { [weak self] result in
+            switch result {
+            case .success(let user):
+                self?.user = user.first
+                completion()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
@@ -123,9 +128,13 @@ final class FriendsTableViewController: UITableViewController {
     }
     
     private func showUnableLoadingAlert() {
+        var dateMessage = ""
+        if let date = dataService.getUpdateDate(for: .friend) {
+            dateMessage = "The last update was on \(date.formatted()).\n"
+        }
         let ac = UIAlertController(
             title: "Failed to Load",
-            message: "Please try again later.",
+            message: "\(dateMessage)Please try again later.",
             preferredStyle: .alert
         )
         ac.addAction(UIAlertAction(title: "OK", style: .default))

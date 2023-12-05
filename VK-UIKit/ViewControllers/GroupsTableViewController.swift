@@ -79,9 +79,13 @@ final class GroupsTableViewController: UITableViewController {
     }
     
     private func showUnableLoadingAlert() {
+        var dateMessage = ""
+        if let date = dataService.getUpdateDate(for: .group) {
+            dateMessage = "The last update was on \(date.formatted()).\n"
+        }
         let ac = UIAlertController(
             title: "Failed to Load",
-            message: "Please try again later.",
+            message: "\(dateMessage)Please try again later.",
             preferredStyle: .alert
         )
         ac.addAction(UIAlertAction(title: "OK", style: .default))

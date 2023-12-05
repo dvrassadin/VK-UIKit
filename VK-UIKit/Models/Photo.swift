@@ -15,15 +15,6 @@ struct PhotosResponse: Decodable {
     }
 }
 
-//switch size.type {
-//case .w: return .w
-//case .z: return .z
-//case .y: return .y
-//case .x: return .x
-//case .m: return .m
-//case .s: return .s
-//}
-
 struct Photo: Decodable {
     private let sizes: [Size]
     var maxSizeURL: URL? {
@@ -37,17 +28,8 @@ struct Photo: Decodable {
                 if sizeWeight == 6 { break }
                 maxSizeWeight = sizeWeight
             }
-            
         }
         return URL(string: maxSizeStringURL)
-    }
-    
-    func getURL(for size: SizeType) -> URL? {
-        if let stringURL = sizes.first(where: { $0.type == size })?.url {
-            return URL(string: stringURL)
-        } else {
-            return nil
-        }
     }
     
     private struct Size: Decodable {

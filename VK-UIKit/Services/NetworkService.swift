@@ -84,8 +84,11 @@ final class NetworkService {
         }.resume()
     }
     
-    func getPhotos(completion: @escaping ([Photo]) -> Void) {
-        guard var url = baseURL else { return }
+    func getPhotos(completion: @escaping (Result<[Photo], NetworkError>) -> Void) {
+        guard var url = baseURL else {
+            completion(.failure(.invalidURL))
+            return
+        }
         
         url.append(path: "photos.getAll")
         
@@ -94,23 +97,29 @@ final class NetworkService {
             URLQueryItem(name: "v", value: "5.199")
         ])
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data else { return }
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data else {
+                completion(.failure(.noData))
+                return
+            }
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
                 let photos = try decoder.decode(PhotosResponse.self, from: data).response.items
-                completion(photos)
+                completion(.success(photos))
             } catch {
-                print(error)
+                completion(.failure(.invalidData))
             }
         }.resume()
     }
     
-    func getUser(with id: Int? = nil, completion: @escaping ([User]) -> Void) {
-        guard var url = baseURL else { return }
+    func getUser(with id: Int? = nil, completion: @escaping (Result<[User], NetworkError>) -> Void) {
+        guard var url = baseURL else {
+            completion(.failure(.invalidURL))
+            return
+        }
         
         url.append(path: "users.get")
         
@@ -124,17 +133,20 @@ final class NetworkService {
             URLQueryItem(name: "v", value: "5.199")
         ])
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data else { return }
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data else {
+                completion(.failure(.noData))
+                return
+            }
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
                 let user = try decoder.decode(UsersResponse.self, from: data).response
-                completion(user)
+                completion(.success(user))
             } catch {
-                print(error)
+                completion(.failure(.invalidData))
             }
         }.resume()
     }
