@@ -37,6 +37,7 @@ final class PhotosCollectionViewController: UICollectionViewController {
         super.viewWillAppear(animated)
         tabBarController?.title = Self.name
         tabBarController?.navigationItem.rightBarButtonItem = nil
+        collectionView.backgroundColor = Theme.backgroundColor
     }
 
     // MARK: - UICollectionViewDataSource
@@ -61,11 +62,18 @@ final class PhotosCollectionViewController: UICollectionViewController {
     // MARK: - Setup UI
     
     @objc private func updatePhotos() {
-        networkService.getPhotos { [weak self] photos in
-            self?.photos = photos
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-                self?.collectionView.refreshControl?.endRefreshing()
+        networkService.getPhotos { [weak self] result in
+            switch result {
+            case .success(let photos):
+                self?.photos = photos
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                    self?.collectionView.refreshControl?.endRefreshing()
+                }
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.showUnableLoadingAlert()
+                }
             }
         }
     }
@@ -94,5 +102,15 @@ final class PhotosCollectionViewController: UICollectionViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    private func showUnableLoadingAlert() {
+        let ac = UIAlertController(
+            title: "Failed to Load",
+            message: "Please try again later.",
+            preferredStyle: .alert
+        )
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
     }
 }

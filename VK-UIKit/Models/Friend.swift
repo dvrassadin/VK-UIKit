@@ -16,10 +16,19 @@ struct FriendsResponse: Decodable {
 }
 
 struct Friend: Decodable {
+    let id: Int
     let firstName: String
     let lastName: String
-    let photo200: String
+    let photo200: String?
     
     private let online: Int
     var isOnline: Bool { online != 0 }
+    
+    init(id: Int, firstName: String, lastName: String, photo200: String? = nil) {
+        self.id = id
+        self.firstName = firstName
+        self.lastName = lastName
+        self.photo200 = photo200
+        online = 0
+    }
 }

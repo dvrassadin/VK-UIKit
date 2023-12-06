@@ -7,7 +7,6 @@
 
 import Foundation
 
-/// Structure for `photos.get` request.
 struct PhotosResponse: Decodable {
     let response: Items
     
@@ -18,13 +17,19 @@ struct PhotosResponse: Decodable {
 
 struct Photo: Decodable {
     private let sizes: [Size]
-    
-    func getURL(for size: SizeType) -> URL? {
-        if let stringURL = sizes.first(where: { $0.type == size })?.url {
-            return URL(string: stringURL)
-        } else {
-            return nil
+    var maxSizeURL: URL? {
+        let sizeWeight: [SizeType: Int8] = [.w: 6, .z: 5, .y: 4, .x: 3, .m: 2, .s: 1]
+        var maxSizeWeight: Int8 = 0
+        var maxSizeStringURL = ""
+        for size in sizes {
+            guard let sizeWeight = sizeWeight[size.type] else { continue }
+            if sizeWeight > maxSizeWeight {
+                maxSizeStringURL = size.url
+                if sizeWeight == 6 { break }
+                maxSizeWeight = sizeWeight
+            }
         }
+        return URL(string: maxSizeStringURL)
     }
     
     private struct Size: Decodable {

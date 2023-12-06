@@ -13,6 +13,7 @@ final class FriendsTableViewController: UITableViewController {
     
     static let name = "Friends"
     private let networkService = NetworkService()
+    private let dataService = DataService()
     private var friends = [Friend]()
     private var user: User?
     
@@ -24,6 +25,7 @@ final class FriendsTableViewController: UITableViewController {
             FriendsTableViewCell.self,
             forCellReuseIdentifier: FriendsTableViewCell.identifier
         )
+        friends = dataService.fetchFriends()
         updateFriends()
         tableView.refreshControl = UIRefreshControl()
         refreshControl?.addTarget(
@@ -36,6 +38,8 @@ final class FriendsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.title = Self.name
+        view.backgroundColor = Theme.backgroundColor
+        tableView.reloadData()
         addProfileButton()
     }
     
@@ -58,16 +62,13 @@ final class FriendsTableViewController: UITableViewController {
         return cell
     }
     
-    // MARK: - Setup UI
+    // MARK: - Navigation
     
-    @objc private func updateFriends() {
-        networkService.getFriends { [weak self] users in
-            self?.friends = users
-            DispatchQueue.main.async {
-                self?.refreshControl?.endRefreshing()
-                self?.tableView.reloadData()
-            }
-        }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.pushViewController(
+            FriendProfileViewController(friend: friends[indexPath.row]),
+            animated: true
+        )
     }
     
     @objc private func goToProfile() {
@@ -77,13 +78,34 @@ final class FriendsTableViewController: UITableViewController {
         transition.duration = 0.5
         transition.type = .fade
         navigationController?.view.layer.add(transition, forKey: nil)
-        navigationController?.pushViewController(ProfileViewController(user: user), animated: false)
+        navigationController?.pushViewController(UserProfileViewController(user: user), animated: false)
+    }
+    
+    // MARK: - Setup UI
+    
+    @objc private func updateFriends() {
+        networkService.getFriends { [weak self] result in
+            switch result {
+            case .success(let friends): self?.friends = friends
+            case .failure: DispatchQueue.main.async { self?.showUnableLoadingAlert() }
+            }
+            
+            DispatchQueue.main.async {
+                self?.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     private func getUser(_ completion: @escaping () -> Void) {
-        networkService.getUser { [weak self] user in
-            self?.user = user.first
-            completion()
+        networkService.getUser { [weak self] result in
+            switch result {
+            case .success(let user):
+                self?.user = user.first
+                completion()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
@@ -103,5 +125,19 @@ final class FriendsTableViewController: UITableViewController {
                 }
             }
         }
+    }
+    
+    private func showUnableLoadingAlert() {
+        var dateMessage = ""
+        if let date = dataService.getUpdateDate(for: .friend) {
+            dateMessage = "The last update was on \(date.formatted()).\n"
+        }
+        let ac = UIAlertController(
+            title: "Failed to Load",
+            message: "\(dateMessage)Please try again later.",
+            preferredStyle: .alert
+        )
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
     }
 }

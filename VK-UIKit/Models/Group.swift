@@ -7,7 +7,6 @@
 
 import UIKit
 
-/// Structure for `groups.get` request.
 struct GroupsResponse: Decodable {
     let response: Items
     
@@ -17,17 +16,8 @@ struct GroupsResponse: Decodable {
 }
 
 struct Group: Decodable {
+    let id: Int
     let name: String
     let description: String?
-    
-    private let photo200: String
-    var photo: UIImage? {        
-        get async {
-            guard let url = URL(string: photo200),
-                  let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data)
-            else { return nil }
-            return image
-        }
-    }
+    let photo200: String?
 }
