@@ -13,6 +13,10 @@
 		511F666C2B19EB6E00066C27 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511F666B2B19EB6E00066C27 /* DataService.swift */; };
 		51561D092B09EED900F00DA1 /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51561D082B09EED900F00DA1 /* GroupsTableViewCell.swift */; };
 		51561D0B2B09F47400F00DA1 /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51561D0A2B09F47400F00DA1 /* PhotosCollectionViewCell.swift */; };
+		517D7DD72B2197D5006D96A8 /* VKModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517D7DD62B2197D5006D96A8 /* VKModelTests.swift */; };
+		517D7DD92B2199AF006D96A8 /* NetworkServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517D7DD82B2199AF006D96A8 /* NetworkServiceMock.swift */; };
+		517D7DDB2B219A57006D96A8 /* DataServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517D7DDA2B219A57006D96A8 /* DataServiceSpy.swift */; };
+		518C7D2B2B207C110009C7FF /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518C7D2A2B207C110009C7FF /* Model.swift */; };
 		519A4A842B048FBA001539BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519A4A832B048FBA001539BC /* AppDelegate.swift */; };
 		519A4A862B048FBA001539BC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519A4A852B048FBA001539BC /* SceneDelegate.swift */; };
 		519A4A882B048FBA001539BC /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519A4A872B048FBA001539BC /* SignInViewController.swift */; };
@@ -33,13 +37,28 @@
 		51F5FCE22B0DF1ED00DF8D4C /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F5FCE12B0DF1ED00DF8D4C /* Photo.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		51D0CD8B2B20456C005C1BCF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 519A4A782B048FBA001539BC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 519A4A7F2B048FBA001539BC;
+			remoteInfo = "VK-UIKit";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		511531732B21BED800867696 /* VK-UIKitTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VK-UIKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		511F66622B19AA7700066C27 /* FriendProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileViewController.swift; sourceTree = "<group>"; };
 		511F66642B19ACE100066C27 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		511F66692B19EB5000066C27 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		511F666B2B19EB6E00066C27 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
-		51561D082B09EED900F00DA1 /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
+		51561D082B09EED900F00DA1 /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupsTableViewCell.swift; path = ../GroupsTableViewCell.swift; sourceTree = "<group>"; };
 		51561D0A2B09F47400F00DA1 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
+		517D7DD62B2197D5006D96A8 /* VKModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKModelTests.swift; sourceTree = "<group>"; };
+		517D7DD82B2199AF006D96A8 /* NetworkServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceMock.swift; sourceTree = "<group>"; };
+		517D7DDA2B219A57006D96A8 /* DataServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceSpy.swift; sourceTree = "<group>"; };
+		518C7D2A2B207C110009C7FF /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		519A4A802B048FBA001539BC /* VK-UIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VK-UIKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		519A4A832B048FBA001539BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		519A4A852B048FBA001539BC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +70,7 @@
 		519A4A992B049643001539BC /* README.md */ = {isa = PBXFileReference; explicitFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		51B6ADF02B170D240066C617 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		51B6ADF22B1723550066C617 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		51D0CD872B20456C005C1BCF /* VK-UIKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VK-UIKitTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		51E93F062B0719370009F9F9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		51E93F082B071BF50009F9F9 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		51E93F0A2B071C0B0009F9F9 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +91,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		51D0CD842B20456C005C1BCF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -80,15 +107,23 @@
 				519A4A872B048FBA001539BC /* SignInViewController.swift */,
 				51E93F062B0719370009F9F9 /* TabBarController.swift */,
 				51E93F082B071BF50009F9F9 /* FriendsTableViewController.swift */,
-				51E93F0E2B0728FF0009F9F9 /* FriendsTableViewCell.swift */,
 				51E93F0A2B071C0B0009F9F9 /* GroupsTableViewController.swift */,
-				51561D082B09EED900F00DA1 /* GroupsTableViewCell.swift */,
 				51E93F0C2B071C250009F9F9 /* PhotosCollectionViewController.swift */,
-				51561D0A2B09F47400F00DA1 /* PhotosCollectionViewCell.swift */,
 				51B6ADF02B170D240066C617 /* UserProfileViewController.swift */,
 				511F66622B19AA7700066C27 /* FriendProfileViewController.swift */,
+				51D0CDA32B2075AD005C1BCF /* Cells */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		518C7D292B207BFE0009C7FF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				518C7D2A2B207C110009C7FF /* Model.swift */,
+				51F5EFAF2B0C86AF00FA52A0 /* Services */,
+				51F5FCDC2B0DD24700DF8D4C /* DataModels */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		519A4A772B048FBA001539BC = {
@@ -97,6 +132,7 @@
 				519A4A992B049643001539BC /* README.md */,
 				519A4A822B048FBA001539BC /* VK-UIKit */,
 				519A4A972B048FE4001539BC /* .gitignore */,
+				51D0CD882B20456C005C1BCF /* VK-UIKitTests */,
 				519A4A812B048FBA001539BC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -105,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				519A4A802B048FBA001539BC /* VK-UIKit.app */,
+				51D0CD872B20456C005C1BCF /* VK-UIKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -115,10 +152,8 @@
 				51F5EFB42B0C88CF00FA52A0 /* CLientID.swift */,
 				519A4A832B048FBA001539BC /* AppDelegate.swift */,
 				519A4A852B048FBA001539BC /* SceneDelegate.swift */,
-				511F66642B19ACE100066C27 /* Theme.swift */,
 				511F66752B1CBE9000066C27 /* ViewControllers */,
-				51F5EFAF2B0C86AF00FA52A0 /* Services */,
-				51F5FCDC2B0DD24700DF8D4C /* Models */,
+				518C7D292B207BFE0009C7FF /* Models */,
 				519A4A8C2B048FBB001539BC /* Assets.xcassets */,
 				519A4A8E2B048FBB001539BC /* LaunchScreen.storyboard */,
 				519A4A912B048FBB001539BC /* Info.plist */,
@@ -126,16 +161,38 @@
 			path = "VK-UIKit";
 			sourceTree = "<group>";
 		};
+		51D0CD882B20456C005C1BCF /* VK-UIKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				517D7DD62B2197D5006D96A8 /* VKModelTests.swift */,
+				517D7DD82B2199AF006D96A8 /* NetworkServiceMock.swift */,
+				517D7DDA2B219A57006D96A8 /* DataServiceSpy.swift */,
+				511531732B21BED800867696 /* VK-UIKitTests-Bridging-Header.h */,
+			);
+			path = "VK-UIKitTests";
+			sourceTree = "<group>";
+		};
+		51D0CDA32B2075AD005C1BCF /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				51561D082B09EED900F00DA1 /* GroupsTableViewCell.swift */,
+				51E93F0E2B0728FF0009F9F9 /* FriendsTableViewCell.swift */,
+				51561D0A2B09F47400F00DA1 /* PhotosCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		51F5EFAF2B0C86AF00FA52A0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				51F5EFB02B0C86BF00FA52A0 /* NetworkService.swift */,
 				511F666B2B19EB6E00066C27 /* DataService.swift */,
+				511F66642B19ACE100066C27 /* Theme.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		51F5FCDC2B0DD24700DF8D4C /* Models */ = {
+		51F5FCDC2B0DD24700DF8D4C /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
 				511F66682B19EB5000066C27 /* DataModel.xcdatamodeld */,
@@ -144,7 +201,7 @@
 				51F5FCE12B0DF1ED00DF8D4C /* Photo.swift */,
 				51B6ADF22B1723550066C617 /* User.swift */,
 			);
-			path = Models;
+			path = DataModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,6 +224,24 @@
 			productReference = 519A4A802B048FBA001539BC /* VK-UIKit.app */;
 			productType = "com.apple.product-type.application";
 		};
+		51D0CD862B20456C005C1BCF /* VK-UIKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 51D0CD8D2B20456C005C1BCF /* Build configuration list for PBXNativeTarget "VK-UIKitTests" */;
+			buildPhases = (
+				51D0CD832B20456C005C1BCF /* Sources */,
+				51D0CD842B20456C005C1BCF /* Frameworks */,
+				51D0CD852B20456C005C1BCF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				51D0CD8C2B20456C005C1BCF /* PBXTargetDependency */,
+			);
+			name = "VK-UIKitTests";
+			productName = "VK-UIKitTests";
+			productReference = 51D0CD872B20456C005C1BCF /* VK-UIKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -179,6 +254,11 @@
 				TargetAttributes = {
 					519A4A7F2B048FBA001539BC = {
 						CreatedOnToolsVersion = 15.0.1;
+					};
+					51D0CD862B20456C005C1BCF = {
+						CreatedOnToolsVersion = 15.0.1;
+						LastSwiftMigration = 1500;
+						TestTargetID = 519A4A7F2B048FBA001539BC;
 					};
 				};
 			};
@@ -196,6 +276,7 @@
 			projectRoot = "";
 			targets = (
 				519A4A7F2B048FBA001539BC /* VK-UIKit */,
+				51D0CD862B20456C005C1BCF /* VK-UIKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -208,6 +289,13 @@
 				519A4A982B048FE4001539BC /* .gitignore in Resources */,
 				519A4A902B048FBB001539BC /* LaunchScreen.storyboard in Resources */,
 				519A4A8D2B048FBB001539BC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		51D0CD852B20456C005C1BCF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,12 +325,31 @@
 				51561D0B2B09F47400F00DA1 /* PhotosCollectionViewCell.swift in Sources */,
 				51561D092B09EED900F00DA1 /* GroupsTableViewCell.swift in Sources */,
 				519A4A862B048FBA001539BC /* SceneDelegate.swift in Sources */,
+				518C7D2B2B207C110009C7FF /* Model.swift in Sources */,
 				51E93F092B071BF50009F9F9 /* FriendsTableViewController.swift in Sources */,
 				51E93F0B2B071C0B0009F9F9 /* GroupsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		51D0CD832B20456C005C1BCF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				517D7DD72B2197D5006D96A8 /* VKModelTests.swift in Sources */,
+				517D7DD92B2199AF006D96A8 /* NetworkServiceMock.swift in Sources */,
+				517D7DDB2B219A57006D96A8 /* DataServiceSpy.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		51D0CD8C2B20456C005C1BCF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 519A4A7F2B048FBA001539BC /* VK-UIKit */;
+			targetProxy = 51D0CD8B2B20456C005C1BCF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		519A4A8E2B048FBB001539BC /* LaunchScreen.storyboard */ = {
@@ -441,6 +548,47 @@
 			};
 			name = Release;
 		};
+		51D0CD8E2B20456C005C1BCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4645TSUXP2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dvrassadin.VK-UIKitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "VK-UIKitTests/VK-UIKitTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VK-UIKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VK-UIKit";
+			};
+			name = Debug;
+		};
+		51D0CD8F2B20456C005C1BCF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4645TSUXP2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dvrassadin.VK-UIKitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "VK-UIKitTests/VK-UIKitTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VK-UIKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VK-UIKit";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -458,6 +606,15 @@
 			buildConfigurations = (
 				519A4A952B048FBB001539BC /* Debug */,
 				519A4A962B048FBB001539BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		51D0CD8D2B20456C005C1BCF /* Build configuration list for PBXNativeTarget "VK-UIKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				51D0CD8E2B20456C005C1BCF /* Debug */,
+				51D0CD8F2B20456C005C1BCF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -12,10 +12,19 @@ final class PhotosCollectionViewController: UICollectionViewController {
     // MARK: - Properties
     
     static let name = "Photos"
-    private let networkService = NetworkService()
+    private let photosModel: PhotosModel
     private var photos = [Photo]()
     
     // MARK: - Lifecycle
+    
+    init(collectionViewLayout: UICollectionViewLayout, photosModel: PhotosModel) {
+        self.photosModel = photosModel
+        super.init(collectionViewLayout: collectionViewLayout)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +71,7 @@ final class PhotosCollectionViewController: UICollectionViewController {
     // MARK: - Setup UI
     
     @objc private func updatePhotos() {
-        networkService.getPhotos { [weak self] result in
+        photosModel.downloadPhotos { [weak self] result in
             switch result {
             case .success(let photos):
                 self?.photos = photos

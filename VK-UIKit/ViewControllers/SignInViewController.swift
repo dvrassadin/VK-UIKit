@@ -59,7 +59,7 @@ extension SignInViewController: WKNavigationDelegate {
             return
         }
         
-        NetworkService.token = token
+        VKNetworkService.token = token
         print(token)
         decisionHandler(.cancel)
         webView.removeFromSuperview()

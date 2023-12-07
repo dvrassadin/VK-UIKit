@@ -11,10 +11,16 @@ enum NetworkError: Error {
     case  invalidURL, invalidData, noData
 }
 
-final class NetworkService {
+protocol NetworkService {
+    func getFriends(completion: @escaping (Result<[Friend], NetworkError>) -> Void)
+    func getGroups(completion: @escaping (Result<[Group], NetworkError>) -> Void)
+    func getPhotos(completion: @escaping (Result<[Photo], NetworkError>) -> Void)
+    func getUser(with id: Int?, completion: @escaping (Result<[User], NetworkError>) -> Void)
+}
+
+final class VKNetworkService: NetworkService {
     static var token = ""
     private let baseURL = URL(string: "https://api.vk.com/method")
-    private let dataService = DataService()
     
     func getFriends(completion: @escaping (Result<[Friend], NetworkError>) -> Void) {
         guard var url = baseURL else {
@@ -42,7 +48,6 @@ final class NetworkService {
             
             do {
                 let friends = try decoder.decode(FriendsResponse.self, from: data).response.items
-                self.dataService.add(friends: friends)
                 completion(.success(friends))
             } catch {
                 completion(.failure(.invalidData))
@@ -76,7 +81,6 @@ final class NetworkService {
             
             do {
                 let groups = try decoder.decode(GroupsResponse.self, from: data).response.items
-                self.dataService.add(groups: groups)
                 completion(.success(groups))
             } catch {
                 completion(.failure(.invalidData))
@@ -115,7 +119,7 @@ final class NetworkService {
         }.resume()
     }
     
-    func getUser(with id: Int? = nil, completion: @escaping (Result<[User], NetworkError>) -> Void) {
+    func getUser(with id: Int?, completion: @escaping (Result<[User], NetworkError>) -> Void) {
         guard var url = baseURL else {
             completion(.failure(.invalidURL))
             return
