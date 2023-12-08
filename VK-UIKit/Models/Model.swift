@@ -8,15 +8,15 @@
 import Foundation
 
 protocol FriendsModel {
-    func getSavedFriends() -> [Friend]
+    var friends: [Friend] { get }
     func getFriendsUpdateDate() -> Date?
-    func downloadFriends(completion: @escaping (Result<[Friend], NetworkError>) -> Void)
+    func downloadFriends(completion: @escaping (Bool) -> Void)
 }
 
 protocol GroupsModel {
-    func getSavedGroups() -> [Group]
+    var groups: [Group] { get }
     func getGroupsUpdateDate() -> Date?
-    func downloadGroups(completion: @escaping (Result<[Group], NetworkError>) -> Void)
+    func downloadGroups(completion: @escaping (Bool) -> Void)
 }
 
 protocol PhotosModel {
@@ -30,33 +30,33 @@ protocol UserModel {
 final class VKModel {
     private let networkService: NetworkService
     private let dataService: DataService
+    private(set) var friends: [Friend]
+    private(set) var groups: [Group]
     
     init(networkService: NetworkService, dataService: DataService) {
         self.networkService = networkService
         self.dataService = dataService
+        friends = dataService.fetchFriends()
+        groups = dataService.fetchGroups()
     }
 }
 
 // MARK: - Friends model
 
 extension VKModel: FriendsModel {
-
-    func getSavedFriends() -> [Friend] {
-        dataService.fetchFriends()
-    }
-    
     func getFriendsUpdateDate() -> Date? {
         dataService.getFriendsUpdateDate()
     }
     
-    func downloadFriends(completion: @escaping (Result<[Friend], NetworkError>) -> Void) {
+    func downloadFriends(completion: @escaping (Bool) -> Void) {
         networkService.getFriends { [weak self] result in
             switch result {
             case .success(let friends):
+                self?.friends = friends
                 self?.dataService.add(friends: friends)
-                completion(.success(friends))
-            case .failure(let error):
-                completion(.failure(error))
+                completion(true)
+            case .failure:
+                completion(false)
             }
         }
     }
@@ -75,22 +75,19 @@ extension VKModel: UserModel {
 // MARK: - Groups model
 
 extension VKModel: GroupsModel {
-    func getSavedGroups() -> [Group] {
-        dataService.fetchGroups()
-    }
-    
     func getGroupsUpdateDate() -> Date? {
         dataService.getGroupsUpdateDate()
     }
     
-    func downloadGroups(completion: @escaping (Result<[Group], NetworkError>) -> Void) {
+    func downloadGroups(completion: @escaping (Bool) -> Void) {
         networkService.getGroups { [weak self] result in
             switch result {
             case .success(let groups):
+                self?.groups = groups
                 self?.dataService.add(groups: groups)
-                completion(.success(groups))
-            case .failure(let error):
-                completion(.failure(error))
+                completion(true)
+            case .failure:
+                completion(false)
             }
         }
     }

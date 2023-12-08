@@ -13,7 +13,6 @@ final class GroupsTableViewController: UITableViewController {
     
     static let name = "Groups"
     private let groupsModel: GroupsModel
-    private var groups = [Group]()
     
     //MARK: - Lifecycle
     
@@ -33,7 +32,6 @@ final class GroupsTableViewController: UITableViewController {
             GroupsTableViewCell.self,
             forCellReuseIdentifier: GroupsTableViewCell.identifier
         )
-        groups = groupsModel.getSavedGroups()
         updateGroups()
     }
     
@@ -54,7 +52,7 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        groups.count
+        groupsModel.groups.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,7 +63,7 @@ final class GroupsTableViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        cell.configure(with: groups[indexPath.row])
+        cell.configure(with: groupsModel.groups[indexPath.row])
         
         return cell
     }
@@ -74,9 +72,8 @@ final class GroupsTableViewController: UITableViewController {
     
     @objc private func updateGroups() {
         groupsModel.downloadGroups { [weak self] result in
-            switch result {
-            case .success(let groups): self?.groups = groups
-            case .failure: DispatchQueue.main.async { self?.showUnableLoadingAlert() }
+            if !result {
+                DispatchQueue.main.async { self?.showUnableLoadingAlert() }
             }
             
             DispatchQueue.main.async {

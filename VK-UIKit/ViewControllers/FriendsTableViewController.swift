@@ -14,7 +14,6 @@ final class FriendsTableViewController: UITableViewController {
     static let name = "Friends"
     private let userModel: UserModel
     private let friendsModel: FriendsModel
-    private var friends = [Friend]()
     private var user: User?
     
     // MARK: - Lifecycle
@@ -35,7 +34,7 @@ final class FriendsTableViewController: UITableViewController {
             FriendsTableViewCell.self,
             forCellReuseIdentifier: FriendsTableViewCell.identifier
         )
-        friends = friendsModel.getSavedFriends()
+//        friends = friendsModel.getSavedFriends()
         updateFriends()
         tableView.refreshControl = UIRefreshControl()
         refreshControl?.addTarget(
@@ -56,7 +55,7 @@ final class FriendsTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        friends.count
+        friendsModel.friends.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -67,7 +66,7 @@ final class FriendsTableViewController: UITableViewController {
             return UITableViewCell()
         }
         
-        cell.configure(with: friends[indexPath.row])
+        cell.configure(with: friendsModel.friends[indexPath.row])
         
         return cell
     }
@@ -76,7 +75,7 @@ final class FriendsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         navigationController?.pushViewController(
-            FriendProfileViewController(friend: friends[indexPath.row]),
+            FriendProfileViewController(friend: friendsModel.friends[indexPath.row]),
             animated: true
         )
     }
@@ -95,9 +94,8 @@ final class FriendsTableViewController: UITableViewController {
     
     @objc private func updateFriends() {
         friendsModel.downloadFriends { [weak self] result in
-            switch result {
-            case .success(let friends): self?.friends = friends
-            case .failure: DispatchQueue.main.async { self?.showUnableLoadingAlert() }
+            if !result {
+                DispatchQueue.main.async { self?.showUnableLoadingAlert() }
             }
             
             DispatchQueue.main.async {
