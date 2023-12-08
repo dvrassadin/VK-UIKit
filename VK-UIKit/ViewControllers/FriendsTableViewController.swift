@@ -12,12 +12,21 @@ final class FriendsTableViewController: UITableViewController {
     // MARK: - Properties
     
     static let name = "Friends"
-    private let networkService = NetworkService()
-    private let dataService = DataService()
-    private var friends = [Friend]()
+    private let userModel: UserModel
+    private let friendsModel: FriendsModel
     private var user: User?
     
     // MARK: - Lifecycle
+    
+    init(userModel: UserModel, friendsModel: FriendsModel) {
+        self.friendsModel = friendsModel
+        self.userModel = userModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +34,6 @@ final class FriendsTableViewController: UITableViewController {
             FriendsTableViewCell.self,
             forCellReuseIdentifier: FriendsTableViewCell.identifier
         )
-        friends = dataService.fetchFriends()
         updateFriends()
         tableView.refreshControl = UIRefreshControl()
         refreshControl?.addTarget(
@@ -46,7 +54,7 @@ final class FriendsTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        friends.count
+        friendsModel.friends.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,7 +65,7 @@ final class FriendsTableViewController: UITableViewController {
             return UITableViewCell()
         }
         
-        cell.configure(with: friends[indexPath.row])
+        cell.configure(with: friendsModel.friends[indexPath.row])
         
         return cell
     }
@@ -66,7 +74,7 @@ final class FriendsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         navigationController?.pushViewController(
-            FriendProfileViewController(friend: friends[indexPath.row]),
+            FriendProfileViewController(friend: friendsModel.friends[indexPath.row]),
             animated: true
         )
     }
@@ -84,10 +92,9 @@ final class FriendsTableViewController: UITableViewController {
     // MARK: - Setup UI
     
     @objc private func updateFriends() {
-        networkService.getFriends { [weak self] result in
-            switch result {
-            case .success(let friends): self?.friends = friends
-            case .failure: DispatchQueue.main.async { self?.showUnableLoadingAlert() }
+        friendsModel.downloadFriends { [weak self] result in
+            if !result {
+                DispatchQueue.main.async { self?.showUnableLoadingAlert() }
             }
             
             DispatchQueue.main.async {
@@ -98,7 +105,7 @@ final class FriendsTableViewController: UITableViewController {
     }
     
     private func getUser(_ completion: @escaping () -> Void) {
-        networkService.getUser { [weak self] result in
+        userModel.downloadUser(with: nil) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.user = user.first
@@ -129,7 +136,7 @@ final class FriendsTableViewController: UITableViewController {
     
     private func showUnableLoadingAlert() {
         var dateMessage = ""
-        if let date = dataService.getUpdateDate(for: .friend) {
+        if let date = friendsModel.getFriendsUpdateDate() {
             dateMessage = "The last update was on \(date.formatted()).\n"
         }
         let ac = UIAlertController(

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23B92" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="FriendModel" representedClassName=".FriendModel" syncable="YES" codeGenerationType="class">
+    <entity name="Friend" representedClassName=".FriendCD" syncable="YES" codeGenerationType="class">
         <attribute name="firstName" attributeType="String"/>
         <attribute name="id" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="lastName" attributeType="String"/>
@@ -10,7 +10,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="GroupModel" representedClassName=".GroupModel" syncable="YES" codeGenerationType="class">
+    <entity name="Group" representedClassName=".GroupCD" syncable="YES" codeGenerationType="class">
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
@@ -20,7 +20,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="UpdateDateModel" representedClassName=".UpdateDateModel" syncable="YES" codeGenerationType="class">
+    <entity name="UpdateDate" representedClassName=".UpdateDateCD" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="model" attributeType="String"/>
         <uniquenessConstraints>

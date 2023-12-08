@@ -12,11 +12,18 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - Properties
     
     static let name = "Groups"
-    private let networkService = NetworkService()
-    private let dataService = DataService()
-    private var groups = [Group]()
+    private let groupsModel: GroupsModel
     
     //MARK: - Lifecycle
+    
+    init(groupsModel: GroupsModel) {
+        self.groupsModel = groupsModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +32,6 @@ final class GroupsTableViewController: UITableViewController {
             GroupsTableViewCell.self,
             forCellReuseIdentifier: GroupsTableViewCell.identifier
         )
-        groups = dataService.fetchGroups()
         updateGroups()
     }
     
@@ -46,7 +52,7 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        groups.count
+        groupsModel.groups.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,7 +63,7 @@ final class GroupsTableViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        cell.configure(with: groups[indexPath.row])
+        cell.configure(with: groupsModel.groups[indexPath.row])
         
         return cell
     }
@@ -65,10 +71,9 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - Setup UI
     
     @objc private func updateGroups() {
-        networkService.getGroups { [weak self] result in
-            switch result {
-            case .success(let groups): self?.groups = groups
-            case .failure: DispatchQueue.main.async { self?.showUnableLoadingAlert() }
+        groupsModel.downloadGroups { [weak self] result in
+            if !result {
+                DispatchQueue.main.async { self?.showUnableLoadingAlert() }
             }
             
             DispatchQueue.main.async {
@@ -80,7 +85,7 @@ final class GroupsTableViewController: UITableViewController {
     
     private func showUnableLoadingAlert() {
         var dateMessage = ""
-        if let date = dataService.getUpdateDate(for: .group) {
+        if let date = groupsModel.getGroupsUpdateDate() {
             dateMessage = "The last update was on \(date.formatted()).\n"
         }
         let ac = UIAlertController(

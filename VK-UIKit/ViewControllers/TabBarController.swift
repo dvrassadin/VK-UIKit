@@ -20,8 +20,10 @@ final class TabBarController: UITabBarController {
     // MARK: - Setup UI
     
     private func addViewControllers() {
+        let model = VKModel(networkService: VKNetworkService(), dataService: VKDataService())
+        
         // Friends VC
-        let friendsTableVC = FriendsTableViewController()
+        let friendsTableVC = FriendsTableViewController(userModel: model, friendsModel: model)
         let friendsTabBarItem = UITabBarItem(
             title: FriendsTableViewController.name,
             image: UIImage(systemName: "person.crop.circle"),
@@ -30,7 +32,7 @@ final class TabBarController: UITabBarController {
         friendsTableVC.tabBarItem = friendsTabBarItem
         
         // Groups VC
-        let groupsTableVC = GroupsTableViewController()
+        let groupsTableVC = GroupsTableViewController(groupsModel: model)
         let groupsTabBarItem = UITabBarItem(
             title: GroupsTableViewController.name,
             image: UIImage(systemName: "person.3"),
@@ -40,7 +42,8 @@ final class TabBarController: UITabBarController {
         
         // Photos VC
         let photosCollectionVC = PhotosCollectionViewController(
-            collectionViewLayout: PhotosCollectionViewController.createLayout()
+            collectionViewLayout: PhotosCollectionViewController.createLayout(),
+            photosModel: model
         )
         let photosTabBarItem = UITabBarItem(
             title: PhotosCollectionViewController.name,

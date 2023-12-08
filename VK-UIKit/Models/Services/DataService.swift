@@ -8,7 +8,16 @@
 import Foundation
 import CoreData
 
-final class DataService {
+protocol DataService {
+    func add(friends: [Friend])
+    func fetchFriends() -> [Friend]
+    func add(groups: [Group])
+    func fetchGroups() -> [Group]
+    func getFriendsUpdateDate() -> Date?
+    func getGroupsUpdateDate() -> Date?
+}
+
+final class VKDataService: DataService {
     private static let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DataModel")
         container.loadPersistentStores { _, error in
@@ -32,19 +41,19 @@ final class DataService {
     
     func add(friends: [Friend]) {
         for friend in friends {
-            let friendModel = FriendModel(context: Self.persistentContainer.viewContext)
+            let friendModel = FriendCD(context: Self.persistentContainer.viewContext)
             friendModel.id = Int64(friend.id)
             friendModel.firstName = friend.firstName
             friendModel.lastName = friend.lastName
         }
         if Self.persistentContainer.viewContext.hasChanges {
-            addUpdateDate(for: .friend)
+            addFriendsUpdateDate()
         }
         saveContext()
     }
     
     func fetchFriends() -> [Friend] {
-        let fetchRequest = FriendModel.fetchRequest()
+        let fetchRequest = FriendCD.fetchRequest()
         guard let friendModels = try? Self.persistentContainer.viewContext.fetch(fetchRequest) else { return [] }
         var friends = [Friend]()
         for friendModel in friendModels {
@@ -60,19 +69,19 @@ final class DataService {
     
     func add(groups: [Group]) {
         for group in groups {
-            let groupModel = GroupModel(context: Self.persistentContainer.viewContext)
+            let groupModel = GroupCD(context: Self.persistentContainer.viewContext)
             groupModel.id = Int64(group.id)
             groupModel.name = group.name
             groupModel.desc = group.description
         }
         if Self.persistentContainer.viewContext.hasChanges {
-            addUpdateDate(for: .friend)
+            addGroupsUpdateDate()
         }
         saveContext()
     }
     
     func fetchGroups() -> [Group] {
-        let fetchRequest = GroupModel.fetchRequest()
+        let fetchRequest = GroupCD.fetchRequest()
         guard let groupModels = try? Self.persistentContainer.viewContext.fetch(fetchRequest) else { return [] }
         var groups = [Group]()
         for groupModel in groupModels {
@@ -85,22 +94,33 @@ final class DataService {
         return groups
     }
     
-    private func addUpdateDate(for model: CDEntity) {
-        let updateDateModel = UpdateDateModel(context: Self.persistentContainer.viewContext)
-        updateDateModel.model = model.rawValue
+    private func addFriendsUpdateDate() {
+        let updateDateModel = UpdateDateCD(context: Self.persistentContainer.viewContext)
+        updateDateModel.model = "friends"
         updateDateModel.date = Date()
     }
     
-    func getUpdateDate(for model: CDEntity) -> Date? {
-        let fetchRequest = UpdateDateModel.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "model = %@", model.rawValue)
+    private func addGroupsUpdateDate() {
+        let updateDateModel = UpdateDateCD(context: Self.persistentContainer.viewContext)
+        updateDateModel.model = "groups"
+        updateDateModel.date = Date()
+    }
+    
+    func getFriendsUpdateDate() -> Date? {
+        let fetchRequest = UpdateDateCD.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "model = %@", "friends")
         guard let dates = try? Self.persistentContainer.viewContext.fetch(fetchRequest),
               let date = dates.first?.date
         else { return nil }
         return date
     }
     
-    enum CDEntity: String {
-        case friend, group
+    func getGroupsUpdateDate() -> Date? {
+        let fetchRequest = UpdateDateCD.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "model = %@", "groups")
+        guard let dates = try? Self.persistentContainer.viewContext.fetch(fetchRequest),
+              let date = dates.first?.date
+        else { return nil }
+        return date
     }
 }
