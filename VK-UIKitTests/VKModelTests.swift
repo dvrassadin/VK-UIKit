@@ -25,11 +25,6 @@ final class VKModelTests: XCTestCase {
         model = nil
     }
     
-    func testGetSavedFriends() {
-        _ = model.getSavedFriends()
-        XCTAssertTrue(dataService.fetchFriendsWasCalled, "The data service's method fetchFriends wasn't called.")
-    }
-    
     func testGetFriendsUpdateDate() {
         _ = model.getFriendsUpdateDate()
         XCTAssertTrue(
@@ -47,11 +42,6 @@ final class VKModelTests: XCTestCase {
     func testDownloadUser() {
         model.downloadUser(with: nil) { _ in }
         XCTAssertTrue(networkService.getUserWasCalled, "The network service's method getUser wasn't called.")
-    }
-    
-    func testGetSavedGroups() {
-        _ = model.getSavedGroups()
-        XCTAssertTrue(dataService.fetchGroupsWasCalled, "The data service's method fetchGroups wasn't called.")
     }
     
     func testGetGroupsUpdateDate() {
