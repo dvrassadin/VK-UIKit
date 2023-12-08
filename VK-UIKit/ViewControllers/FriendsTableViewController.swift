@@ -34,7 +34,6 @@ final class FriendsTableViewController: UITableViewController {
             FriendsTableViewCell.self,
             forCellReuseIdentifier: FriendsTableViewCell.identifier
         )
-//        friends = friendsModel.getSavedFriends()
         updateFriends()
         tableView.refreshControl = UIRefreshControl()
         refreshControl?.addTarget(
